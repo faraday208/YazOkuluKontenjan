@@ -30,6 +30,81 @@ public class AuthService : IAuthService
         _logger = logger;
     }
 
+    public async Task<CheckPhoneResponseDto> CheckPhoneNumberAsync(string phoneNumber)
+    {
+        var normalizedPhone = NormalizePhoneNumber(phoneNumber);
+        var student = await _studentRepository.FirstOrDefaultAsync(s => s.PhoneNumber == normalizedPhone);
+
+        return new CheckPhoneResponseDto
+        {
+            IsRegistered = student != null,
+            Message = student != null ? "Telefon numarası kayıtlı" : "Telefon numarası kayıtlı değil"
+        };
+    }
+
+    public async Task<AuthResponseDto> RegisterStudentAsync(RegisterStudentDto dto)
+    {
+        try
+        {
+            var normalizedPhone = NormalizePhoneNumber(dto.PhoneNumber);
+
+            // Telefon numarası zaten kayıtlı mı kontrol et
+            var existingStudent = await _studentRepository.FirstOrDefaultAsync(s => s.PhoneNumber == normalizedPhone);
+            if (existingStudent != null)
+            {
+                return new AuthResponseDto
+                {
+                    Success = false,
+                    Message = "Bu telefon numarası zaten kayıtlı"
+                };
+            }
+
+            // Öğrenci numarası zaten kayıtlı mı kontrol et
+            if (!string.IsNullOrWhiteSpace(dto.StudentNumber))
+            {
+                var existingStudentNumber = await _studentRepository.FirstOrDefaultAsync(s => s.StudentNumber == dto.StudentNumber);
+                if (existingStudentNumber != null)
+                {
+                    return new AuthResponseDto
+                    {
+                        Success = false,
+                        Message = "Bu öğrenci numarası zaten kayıtlı"
+                    };
+                }
+            }
+
+            // Yeni öğrenci oluştur
+            var student = new Student
+            {
+                PhoneNumber = normalizedPhone,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                StudentNumber = dto.StudentNumber,
+                Department = dto.Department
+            };
+
+            await _studentRepository.AddAsync(student);
+            _logger.LogInformation("Yeni öğrenci kaydedildi - Telefon: {PhoneNumber}, Ad: {FirstName} {LastName}",
+                normalizedPhone, dto.FirstName, dto.LastName);
+
+            return new AuthResponseDto
+            {
+                Success = true,
+                Message = "Kayıt başarılı. Şimdi doğrulama kodu gönderilecek."
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Öğrenci kaydı sırasında hata oluştu");
+            return new AuthResponseDto
+            {
+                Success = false,
+                Message = "Kayıt sırasında bir hata oluştu"
+            };
+        }
+    }
+
     public async Task<AuthResponseDto> RequestOtpAsync(RequestOtpDto dto)
     {
         try
@@ -124,22 +199,17 @@ public class AuthService : IAuthService
             otpCode.UsedAt = DateTime.UtcNow;
             await _otpRepository.UpdateAsync(otpCode);
 
-            // Öğrenciyi bul veya oluştur
+            // Öğrenciyi bul
             var student = await _studentRepository.FirstOrDefaultAsync(s => s.PhoneNumber == phoneNumber);
 
             if (student == null)
             {
-                // Yeni öğrenci oluştur (ilk giriş)
-                student = new Student
+                _logger.LogWarning("Kayıtlı olmayan telefon numarası - Telefon: {PhoneNumber}", phoneNumber);
+                return new AuthResponseDto
                 {
-                    PhoneNumber = phoneNumber,
-                    FirstName = "Öğrenci", // Profil tamamlama işlemi sonra eklenebilir
-                    LastName = phoneNumber.Substring(phoneNumber.Length - 4), // Son 4 hane
-                    Email = $"{phoneNumber}@temp.com"
+                    Success = false,
+                    Message = "Bu telefon numarası kayıtlı değil. Lütfen önce kayıt olun."
                 };
-
-                await _studentRepository.AddAsync(student);
-                _logger.LogInformation("Yeni öğrenci oluşturuldu - Telefon: {PhoneNumber}", phoneNumber);
             }
 
             _logger.LogInformation("OTP doğrulandı - ÖğrenciId: {StudentId}", student.Id);

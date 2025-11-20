@@ -18,6 +18,26 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// Telefon numarasının kayıtlı olup olmadığını kontrol eder
+    /// </summary>
+    [HttpGet("check-phone/{phoneNumber}")]
+    public async Task<ActionResult<CheckPhoneResponseDto>> CheckPhone(string phoneNumber)
+    {
+        var result = await _authService.CheckPhoneNumberAsync(phoneNumber);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Yeni öğrenci kaydı oluşturur
+    /// </summary>
+    [HttpPost("register")]
+    public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterStudentDto dto)
+    {
+        var result = await _authService.RegisterStudentAsync(dto);
+        return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    /// <summary>
     /// GSM numarasına SMS ile OTP kodu gönderir
     /// </summary>
     [HttpPost("request-otp")]

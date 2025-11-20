@@ -195,8 +195,15 @@ dotnet run
 2. "Öğrenci Girişi" butonuna tıklayın
 3. GSM numaranızı girin (örnek: 05001234567)
 4. "Kod Gönder" butonuna tıklayın
-5. Console/Log'da gösterilen 6 haneli kodu girin
-6. Derslere göz atın ve başvurun!
+5. **API log dosyasından** veya **console çıktısından** 6 haneli OTP kodunu bulun
+6. Bulunan kodu giriş ekranına yazın
+7. Derslere göz atın ve başvurun!
+
+**⚠️ ÖNEMLİ - SMS Sistemi Hakkında:**
+- Bu projede **gerçek SMS gönderimi yapılmamaktadır**
+- OTP kodları **sadece log dosyasına yazılır**
+- Telefonunuza SMS **gelmeyecektir**
+- Kodu görmek için `logs/log-YYYYMMDD.txt` dosyasını kontrol edin
 
 ### Admin Girişi
 

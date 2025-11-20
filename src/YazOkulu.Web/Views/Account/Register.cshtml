@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    var phoneNumber = ViewBag.PhoneNumber as string ?? "";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Öğrenci Kaydı</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                    }
+
+                    <p class="text-muted mb-4">Telefon numaranız kayıtlı değil. Lütfen bilgilerinizi doldurun.</p>
+
+                    <form asp-action="Register" method="post">
+                        <input type="hidden" name="PhoneNumber" value="@phoneNumber" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Telefon Numarası</label>
+                            <input type="text" class="form-control" value="@phoneNumber" disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="FirstName" class="form-label">Ad</label>
+                            <input type="text" class="form-control" id="FirstName" name="FirstName" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="LastName" class="form-label">Soyad</label>
+                            <input type="text" class="form-control" id="LastName" name="LastName" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="StudentNumber" class="form-label">Öğrenci Numarası</label>
+                            <input type="text" class="form-control" id="StudentNumber" name="StudentNumber"
+                                   placeholder="Örn: 5425420001" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">E-posta</label>
+                            <input type="email" class="form-control" id="Email" name="Email"
+                                   placeholder="ornek@ogrenci.halic.edu.tr" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Department" class="form-label">Bölüm</label>
+                            <select class="form-select" id="Department" name="Department" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="Bilgisayar Mühendisliği">Bilgisayar Mühendisliği</option>
+                                <option value="Elektrik-Elektronik Mühendisliği">Elektrik-Elektronik Mühendisliği</option>
+                                <option value="Makine Mühendisliği">Makine Mühendisliği</option>
+                                <option value="Endüstri Mühendisliği">Endüstri Mühendisliği</option>
+                                <option value="İnşaat Mühendisliği">İnşaat Mühendisliği</option>
+                                <option value="İşletme">İşletme</option>
+                                <option value="İktisat">İktisat</option>
+                                <option value="Hukuk">Hukuk</option>
+                                <option value="Mimarlık">Mimarlık</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Kayıt Ol</button>
+                            <a asp-action="Login" class="btn btn-outline-secondary">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
