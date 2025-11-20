@@ -31,10 +31,20 @@ public class CourseService : ICourseService
         var courses = await _courseRepository.GetAllAsync();
         var courseDtos = _mapper.Map<List<CourseDto>>(courses);
 
+        // Tüm başvuruları getir (bekleyen başvuru sayısı için)
+        var allApplications = await _applicationRepository.GetAllAsync();
+
+        // Her ders için bekleyen başvuru sayısını hesapla
+        foreach (var courseDto in courseDtos)
+        {
+            courseDto.PendingApplicationsCount = allApplications
+                .Count(a => a.CourseId == courseDto.Id && a.Status == Domain.Enums.ApplicationStatus.Pending);
+        }
+
         // Öğrenci giriş yapmışsa, başvuru durumlarını kontrol et
         if (studentId.HasValue)
         {
-            var studentApplications = await _applicationRepository.FindAsync(a => a.StudentId == studentId.Value);
+            var studentApplications = allApplications.Where(a => a.StudentId == studentId.Value);
             var appliedCourseIds = studentApplications.Select(a => a.CourseId).ToHashSet();
 
             foreach (var courseDto in courseDtos)

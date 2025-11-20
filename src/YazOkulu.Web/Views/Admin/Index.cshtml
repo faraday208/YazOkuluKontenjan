@@ -14,7 +14,7 @@
             <tr>
                 <th>Ders Kodu</th>
                 <th>Ders Adı</th>
-                <th>Kontenjan</th>
+                <th>Bekleyen Başvuru</th>
                 <th>Dolu/Kontenjan</th>
                 <th style="width: 1%;">İşlem</th>
             </tr>
@@ -25,7 +25,16 @@
                 <tr>
                     <td>@course.Code</td>
                     <td>@course.Name</td>
-                    <td>@course.Quota</td>
+                    <td>
+                        @if (course.PendingApplicationsCount > 0)
+                        {
+                            <span class="badge bg-warning text-dark">@course.PendingApplicationsCount</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">0</span>
+                        }
+                    </td>
                     <td>@(course.Quota - course.AvailableQuota) / @course.Quota</td>
                     <td class="text-nowrap">
                         <a asp-action="Applications" asp-route-courseId="@course.Id" class="btn btn-sm btn-primary">

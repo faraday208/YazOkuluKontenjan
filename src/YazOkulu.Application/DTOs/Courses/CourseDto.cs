@@ -13,4 +13,5 @@ public class CourseDto
     public int Credits { get; set; }
     public bool IsQuotaFull { get; set; }
     public bool HasApplied { get; set; } // Öğrencinin daha önce başvurup başvurmadığı
+    public int PendingApplicationsCount { get; set; } // Bekleyen başvuru sayısı
 }
