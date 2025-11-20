@@ -44,12 +44,26 @@ public class CourseService : ICourseService
         // Öğrenci giriş yapmışsa, başvuru durumlarını kontrol et
         if (studentId.HasValue)
         {
-            var studentApplications = allApplications.Where(a => a.StudentId == studentId.Value);
+            var studentApplications = allApplications.Where(a => a.StudentId == studentId.Value).ToList();
             var appliedCourseIds = studentApplications.Select(a => a.CourseId).ToHashSet();
 
             foreach (var courseDto in courseDtos)
             {
                 courseDto.HasApplied = appliedCourseIds.Contains(courseDto.Id);
+
+                // Başvuru durumunu set et
+                var application = studentApplications.FirstOrDefault(a => a.CourseId == courseDto.Id);
+                if (application != null)
+                {
+                    courseDto.ApplicationStatus = application.Status;
+                    courseDto.ApplicationStatusText = application.Status switch
+                    {
+                        Domain.Enums.ApplicationStatus.Pending => "Beklemede",
+                        Domain.Enums.ApplicationStatus.Approved => "Onaylandı",
+                        Domain.Enums.ApplicationStatus.Rejected => "Reddedildi",
+                        _ => "Bilinmiyor"
+                    };
+                }
             }
         }
 

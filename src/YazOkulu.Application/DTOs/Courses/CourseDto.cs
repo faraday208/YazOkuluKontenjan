@@ -14,4 +14,6 @@ public class CourseDto
     public bool IsQuotaFull { get; set; }
     public bool HasApplied { get; set; } // Öğrencinin daha önce başvurup başvurmadığı
     public int PendingApplicationsCount { get; set; } // Bekleyen başvuru sayısı
+    public YazOkulu.Domain.Enums.ApplicationStatus? ApplicationStatus { get; set; } // Başvuru durumu (varsa)
+    public string? ApplicationStatusText { get; set; } // Başvuru durumu metni (varsa)
 }

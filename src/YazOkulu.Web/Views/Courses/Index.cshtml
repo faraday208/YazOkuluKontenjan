@@ -46,6 +46,21 @@
                         @if (course.HasApplied)
                         {
                             <button class="btn btn-secondary" disabled>Başvuru Yapıldı</button>
+                            @if (course.ApplicationStatus.HasValue)
+                            {
+                                @if (course.ApplicationStatus == YazOkulu.Domain.Enums.ApplicationStatus.Pending)
+                                {
+                                    <span class="badge bg-warning ms-2">@course.ApplicationStatusText</span>
+                                }
+                                else if (course.ApplicationStatus == YazOkulu.Domain.Enums.ApplicationStatus.Approved)
+                                {
+                                    <span class="badge bg-success ms-2">@course.ApplicationStatusText</span>
+                                }
+                                else if (course.ApplicationStatus == YazOkulu.Domain.Enums.ApplicationStatus.Rejected)
+                                {
+                                    <span class="badge bg-danger ms-2">@course.ApplicationStatusText</span>
+                                }
+                            }
                         }
                         else if (course.IsQuotaFull)
                         {
