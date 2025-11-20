@@ -1,6 +1,7 @@
 @model List<YazOkulu.Application.DTOs.Applications.ApplicationDto>
 @{
     ViewData["Title"] = "Başvurular";
+    var approvedStudents = Model.Where(a => a.Status == YazOkulu.Domain.Enums.ApplicationStatus.Approved).ToList();
 }
 
 <div class="container mt-4">
@@ -18,54 +19,121 @@
         <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
     }
 
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">Bu derse henüz başvuru yapılmamış.</div>
-    }
-    else
-    {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Öğrenci</th>
-                    <th>Telefon</th>
-                    <th>Başvuru Tarihi</th>
-                    <th>Durum</th>
-                    <th>İşlem</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var app in Model)
-                {
-                    <tr>
-                        <td>@app.StudentName</td>
-                        <td>@app.StudentPhone</td>
-                        <td>@app.AppliedAt.ToString("dd.MM.yyyy HH:mm")</td>
-                        <td>@app.StatusText</td>
-                        <td>
-                            @if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Pending)
-                            {
-                                <form asp-action="UpdateStatus" method="post" class="d-inline">
-                                    <input type="hidden" name="id" value="@app.Id" />
-                                    <input type="hidden" name="courseId" value="@ViewBag.CourseId" />
-                                    <input type="hidden" name="status" value="1" />
-                                    <button type="submit" class="btn btn-sm btn-success">Onayla</button>
-                                </form>
-                                <form asp-action="UpdateStatus" method="post" class="d-inline">
-                                    <input type="hidden" name="id" value="@app.Id" />
-                                    <input type="hidden" name="courseId" value="@ViewBag.CourseId" />
-                                    <input type="hidden" name="status" value="2" />
-                                    <button type="submit" class="btn btn-sm btn-danger">Reddet</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <span class="text-muted">-</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+    <!-- Kabul Edilmiş Öğrenciler -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-people-fill me-2"></i>Kabul Edilmiş Öğrenciler
+                <span class="badge bg-white text-success ms-2">@approvedStudents.Count</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            @if (!approvedStudents.Any())
+            {
+                <div class="text-muted text-center py-3">Henüz kabul edilmiş öğrenci yok.</div>
+            }
+            else
+            {
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Öğrenci Adı</th>
+                            <th>Telefon</th>
+                            <th>Başvuru Tarihi</th>
+                            <th>Onay Tarihi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in approvedStudents)
+                        {
+                            <tr>
+                                <td>
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    @student.StudentName
+                                </td>
+                                <td>@student.StudentPhone</td>
+                                <td>@student.AppliedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>@(student.ReviewedAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <!-- Tüm Başvurular -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-list-ul me-2"></i>Tüm Başvurular
+                <span class="badge bg-white text-primary ms-2">@Model.Count</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info mb-0">Bu derse henüz başvuru yapılmamış.</div>
+            }
+            else
+            {
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Öğrenci</th>
+                            <th>Telefon</th>
+                            <th>Başvuru Tarihi</th>
+                            <th>Durum</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var app in Model)
+                        {
+                            <tr>
+                                <td>@app.StudentName</td>
+                                <td>@app.StudentPhone</td>
+                                <td>@app.AppliedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    @if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Pending)
+                                    {
+                                        <span class="badge bg-warning">@app.StatusText</span>
+                                    }
+                                    else if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Approved)
+                                    {
+                                        <span class="badge bg-success">@app.StatusText</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">@app.StatusText</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Pending)
+                                    {
+                                        <form asp-action="UpdateStatus" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@app.Id" />
+                                            <input type="hidden" name="courseId" value="@ViewBag.CourseId" />
+                                            <input type="hidden" name="status" value="1" />
+                                            <button type="submit" class="btn btn-sm btn-success">Onayla</button>
+                                        </form>
+                                        <form asp-action="UpdateStatus" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@app.Id" />
+                                            <input type="hidden" name="courseId" value="@ViewBag.CourseId" />
+                                            <input type="hidden" name="status" value="2" />
+                                            <button type="submit" class="btn btn-sm btn-danger">Reddet</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
 </div>
