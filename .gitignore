@@ -248,7 +248,7 @@ docs/
 node_modules/
 dist/
 wwwroot/dist/
-wwwroot/lib/
+# wwwroot/lib/ - Commented out: This project uses static libs, not npm/libman
 
 # NPM/Yarn
 npm-debug.log*
