@@ -1,0 +1,42 @@
+@model List<YazOkulu.Application.DTOs.Courses.CourseDto>
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Panel - Dersler</h2>
+        <a asp-action="Logout" class="btn btn-danger">Çıkış</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ders Kodu</th>
+                <th>Ders Adı</th>
+                <th>Kontenjan</th>
+                <th>Dolu/Kontenjan</th>
+                <th style="width: 1%;">İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td>@course.Code</td>
+                    <td>@course.Name</td>
+                    <td>@course.Quota</td>
+                    <td>@(course.Quota - course.AvailableQuota) / @course.Quota</td>
+                    <td class="text-nowrap">
+                        <a asp-action="Applications" asp-route-courseId="@course.Id" class="btn btn-sm btn-primary">
+                            Başvuruları Gör
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@course.Id" class="btn btn-sm btn-warning ms-2">
+                            Düzenle
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

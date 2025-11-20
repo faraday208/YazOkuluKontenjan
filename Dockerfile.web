@@ -1,0 +1,30 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy project files
+COPY ["src/YazOkulu.Web/YazOkulu.Web.csproj", "src/YazOkulu.Web/"]
+COPY ["src/YazOkulu.Application/YazOkulu.Application.csproj", "src/YazOkulu.Application/"]
+COPY ["src/YazOkulu.Domain/YazOkulu.Domain.csproj", "src/YazOkulu.Domain/"]
+
+# Restore dependencies
+RUN dotnet restore "src/YazOkulu.Web/YazOkulu.Web.csproj"
+
+# Copy everything else
+COPY . .
+
+# Build
+WORKDIR "/src/src/YazOkulu.Web"
+RUN dotnet build "YazOkulu.Web.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "YazOkulu.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "YazOkulu.Web.dll"]

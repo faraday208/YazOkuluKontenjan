@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D40979B3-FEFA-466E-879C-AF839CE342EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.Domain", "src\YazOkulu.Domain\YazOkulu.Domain.csproj", "{6DFCB077-A131-4854-9691-2FB8A0ACA13B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.Application", "src\YazOkulu.Application\YazOkulu.Application.csproj", "{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.Infrastructure", "src\YazOkulu.Infrastructure\YazOkulu.Infrastructure.csproj", "{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.API", "src\YazOkulu.API\YazOkulu.API.csproj", "{31AF52F9-2FBA-4C89-9586-6956F0744E0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.Web", "src\YazOkulu.Web\YazOkulu.Web.csproj", "{3A31CBF3-C056-4384-9960-10AFB6F1F5A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F2E8AEB3-E405-40C2-8EDA-B15CCA2FFBD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YazOkulu.Tests", "tests\YazOkulu.Tests\YazOkulu.Tests.csproj", "{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DFCB077-A131-4854-9691-2FB8A0ACA13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFCB077-A131-4854-9691-2FB8A0ACA13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFCB077-A131-4854-9691-2FB8A0ACA13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFCB077-A131-4854-9691-2FB8A0ACA13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31AF52F9-2FBA-4C89-9586-6956F0744E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31AF52F9-2FBA-4C89-9586-6956F0744E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31AF52F9-2FBA-4C89-9586-6956F0744E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31AF52F9-2FBA-4C89-9586-6956F0744E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A31CBF3-C056-4384-9960-10AFB6F1F5A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A31CBF3-C056-4384-9960-10AFB6F1F5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A31CBF3-C056-4384-9960-10AFB6F1F5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A31CBF3-C056-4384-9960-10AFB6F1F5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DFCB077-A131-4854-9691-2FB8A0ACA13B} = {D40979B3-FEFA-466E-879C-AF839CE342EC}
+		{5F0B902C-0D6A-48E9-897F-AA30DBA7F94F} = {D40979B3-FEFA-466E-879C-AF839CE342EC}
+		{B2C6A8A6-E62D-4C6A-8600-EA6E5291A9D3} = {D40979B3-FEFA-466E-879C-AF839CE342EC}
+		{31AF52F9-2FBA-4C89-9586-6956F0744E0E} = {D40979B3-FEFA-466E-879C-AF839CE342EC}
+		{3A31CBF3-C056-4384-9960-10AFB6F1F5A6} = {D40979B3-FEFA-466E-879C-AF839CE342EC}
+		{EBB4716C-9E37-4A45-A7D8-A9384F9E0D6B} = {F2E8AEB3-E405-40C2-8EDA-B15CCA2FFBD4}
+	EndGlobalSection
+EndGlobal

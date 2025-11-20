@@ -1,0 +1,58 @@
+@model List<YazOkulu.Application.DTOs.Applications.ApplicationDto>
+@{
+    ViewData["Title"] = "Başvurularım";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Başvurularım</h2>
+        <div>
+            <a asp-controller="Courses" asp-action="Index" class="btn btn-primary me-2">Dersler</a>
+            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Çıkış</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Henüz başvuru yapmadınız.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                    <th>Başvuru Tarihi</th>
+                    <th>Durum</th>
+                    <th>İnceleme Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in Model)
+                {
+                    <tr>
+                        <td>@app.CourseCode</td>
+                        <td>@app.CourseName</td>
+                        <td>@app.AppliedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Pending)
+                            {
+                                <span class="badge bg-warning">Beklemede</span>
+                            }
+                            else if (app.Status == YazOkulu.Domain.Enums.ApplicationStatus.Approved)
+                            {
+                                <span class="badge bg-success">Onaylandı</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Reddedildi</span>
+                            }
+                        </td>
+                        <td>@(app.ReviewedAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Kod Doğrulama";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Doğrulama Kodu</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                    }
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+
+                    <p>Telefonunuza gönderilen 6 haneli kodu giriniz.</p>
+
+                    <form asp-action="VerifyOtp" method="post">
+                        <input type="hidden" name="phoneNumber" value="@ViewBag.PhoneNumber" />
+                        <div class="mb-3">
+                            <label class="form-label">Doğrulama Kodu</label>
+                            <input type="text" name="code" class="form-control" placeholder="123456" maxlength="6" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

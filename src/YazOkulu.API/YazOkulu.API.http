@@ -1,0 +1,6 @@
+@YazOkulu.API_HostAddress = http://localhost:5047
+
+GET {{YazOkulu.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

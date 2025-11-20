@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="text-center">
+    <div class="mb-4">
+        <img src="~/images/halic-logo.svg" alt="Haliç Üniversitesi" style="height: 120px; margin-bottom: 20px;">
+    </div>
+    <h1 class="display-4 mb-3">Haliç Üniversitesi</h1>
+    <h2 class="mb-4">Yaz Okulu Başvuru Sistemi</h2>
+    <p class="lead mb-4">Yaz okulu derslerine başvurmak ve başvurularınızı takip etmek için lütfen giriş yapınız.</p>
+
+    <div class="d-flex justify-content-center gap-3">
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg">
+            <i class="bi bi-person"></i> Öğrenci Girişi
+        </a>
+        <a asp-controller="Admin" asp-action="Login" class="btn btn-secondary btn-lg">
+            <i class="bi bi-shield-lock"></i> Admin Paneli
+        </a>
+    </div>
+</div>

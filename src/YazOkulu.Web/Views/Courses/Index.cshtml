@@ -1,0 +1,66 @@
+@model List<YazOkulu.Application.DTOs.Courses.CourseDto>
+@{
+    ViewData["Title"] = "Dersler";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Yaz Okulu Dersleri</h2>
+        <div>
+            <span class="me-3">Hoşgeldiniz, <strong>@ViewBag.StudentName</strong></span>
+            <a asp-controller="Applications" asp-action="Index" class="btn btn-info me-2">Başvurularım</a>
+            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Çıkış</a>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>@course.Code - @course.Name</strong>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Fakülte:</strong> @course.Faculty</p>
+                        <p><strong>Bölüm:</strong> @course.Department</p>
+                        <p><strong>Öğretim Üyesi:</strong> @course.Instructor</p>
+                        <p><strong>Kredi:</strong> @course.Credits</p>
+                        <p>
+                            <strong>Kontenjan:</strong>
+                            @course.AvailableQuota / @course.Quota
+                            @if (course.IsQuotaFull)
+                            {
+                                <span class="badge bg-danger">DOLU</span>
+                            }
+                        </p>
+                        @if (course.HasApplied)
+                        {
+                            <button class="btn btn-secondary" disabled>Başvuru Yapıldı</button>
+                        }
+                        else if (course.IsQuotaFull)
+                        {
+                            <button class="btn btn-warning" disabled>Kontenjan Dolu</button>
+                        }
+                        else
+                        {
+                            <form asp-action="Apply" method="post" class="d-inline">
+                                <input type="hidden" name="courseId" value="@course.Id" />
+                                <button type="submit" class="btn btn-success">Başvur</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
